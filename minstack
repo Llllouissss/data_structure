@@ -1,0 +1,90 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+#include <stack>
+using namespace std;
+class Minstack{
+    private:
+        stack<int> data;
+        stack<int> minstack;
+    public:
+        Minstack(){};
+        void push(int x);
+        void pop();
+        bool isempty();
+        int Top();
+        int getsize();
+        int getmin();
+};
+void Minstack::push(int x){
+    data.push(x);
+    if(minstack.empty() || x < minstack.top())
+        minstack.push(x);
+    else{
+        minstack.push(minstack.top());
+    }
+}
+int Minstack::Top(){
+    if(data.empty()){
+        cout<<"Stack is empty"<<endl;
+    }
+    return data.top();
+}
+void Minstack::pop(){
+    if(data.empty()){
+        cout<<"Stack is empty"<<endl;
+        return;
+    }
+    data.pop();
+    minstack.pop();
+}
+bool Minstack::isempty(){
+    return data.empty();
+}
+int Minstack::getmin(){
+    if(data.empty()){
+        cout<<"stack is empty"<<endl;
+        return -1;
+    }
+    return minstack.top();
+}
+int Minstack::getsize(){
+    if(data.empty()){
+        cout<<"stack is empty"<<endl;
+        return -1;
+    }
+    return data.size();
+}
+int main()
+{
+    Minstack s;
+    s.pop();
+    s.push(19);
+    cout<<"top : "<<s.Top()<<" min : "<<s.getmin()<<endl;
+    s.push(13);
+    cout<<"top : "<<s.Top()<<" min : "<<s.getmin()<<endl;
+    s.push(5);
+    cout<<"top : "<<s.Top()<<" min : "<<s.getmin()<<endl;
+    s.push(8);
+    cout<<"top : "<<s.Top()<<" min : "<<s.getmin()<<endl;
+    s.push(1);
+    cout<<"top : "<<s.Top()<<" min : "<<s.getmin()<<endl;
+    s.push(2);
+    cout<<"top : "<<s.Top()<<" min : "<<s.getmin()<<endl;
+
+    return 0;
+}
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+Stack is empty
+top : 19 min : 19
+top : 13 min : 13
+top : 5 min : 5
+top : 8 min : 5
+top : 1 min : 1
+top : 2 min : 1
