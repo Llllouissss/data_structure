@@ -1,0 +1,157 @@
+#include <iostream>
+
+using namespace std;
+class stacklist;
+class stacknode{
+private:
+    int data;
+    stacknode *next;
+public:
+    stacknode(){
+        data = 0;
+        next = NULL;
+    }
+    stacknode(int x){
+        data = x;
+        next = NULL;
+    }
+    stacknode(int x, stacknode *nextnode){
+        data = x;
+        next = nextnode;
+    }
+    friend class stacklist;
+};
+class stacklist{
+private:
+    stacknode *top;
+    int size;
+public:
+    stacklist(){
+        size = 0;
+        top = 0;
+    }
+    void push(int x);
+    void pop();
+    bool isempty();
+    int Top();
+    int getsize();
+};
+void stacklist::push(int x){
+    if(isempty()){
+        top = new stacknode(x);
+        size++;
+        return;
+    }
+    stacknode *newnode = new stacknode(x);
+    newnode->next = top;
+    top = newnode;
+    size++;
+}
+void stacklist::pop(){
+    if(isempty()){
+        cout<<"Stack is empty"<<endl;
+        return;
+    }
+    stacknode *deletenode = top;
+    top = top->next;
+    delete deletenode;
+    deletenode = NULL;
+    size--;
+}
+bool stacklist::isempty(){
+    return(size == 0);
+}
+int stacklist::Top(){
+    if(isempty()){
+        cout<<"Stack is empty"<<endl;
+        return -1;
+    }
+    return top->data;
+}
+int stacklist::getsize(){
+    return size;
+}
+class stack_array{
+private:
+    int top;
+    int capacity;
+    int *stack;
+    void doublecapacity();
+public:
+    stack_array(){
+        top = -1;
+        capacity = 1;
+        stack = new int[capacity];
+    }
+    void push(int x);
+    void pop();
+    bool isempty();
+    int Top();
+    int getsize();
+};
+void stack_array::doublecapacity(){
+    capacity = capacity*2;
+    int *newstack = new int[capacity];
+    for(int i = 0;i < capacity/2;i++){
+        newstack[i] = stack[i];
+    }
+    delete [] stack;
+    stack = newstack;
+}
+void stack_array::push(int x){
+    if( top == capacity - 1){              //stack is full
+        doublecapacity();
+    }
+    top = top + 1;
+    stack[top] = x;
+}
+void stack_array::pop(){
+    if(isempty()){
+        cout<<"Stack is empty"<<endl;
+        return;
+    }
+    top--;
+}
+bool stack_array::isempty(){
+    return(top == -1);
+}
+int stack_array::Top(){
+    if(isempty()){
+        cout<<"Stack is empty"<<endl;
+        return -1;
+    }
+    return stack[top];
+}
+int stack_array::getsize(){
+    return top+1;
+}
+int main(){
+    /* array version////////////////////////////////////// */
+    stack_array s;
+    s.pop();
+    s.push(14);
+    s.push(9);
+    cout<<"top : "<< s.Top() << " size: "<<s.getsize()<<endl;
+    s.push(7);
+    cout<<"top : "<< s.Top() << " size: "<<s.getsize()<<endl;
+    s.pop();
+    s.pop();
+    cout<<"top : "<< s.Top() << " size: "<<s.getsize()<<endl;
+    s.pop();
+    cout<<"top : "<< s.Top() << " size: "<<s.getsize()<<endl;
+     /* linked list version////////////////////////////////////// */
+    cout<<endl;
+    stacklist a;
+    a.pop();
+    a.push(14);
+    a.push(9);
+    cout<<"top : "<< a.Top() << " size: "<<a.getsize()<<endl;
+    a.push(7);
+    cout<<"top : "<< a.Top() << " size: "<<a.getsize()<<endl;
+    a.pop();
+    a.pop();
+    cout<<"top : "<< a.Top() << " size: "<<a.getsize()<<endl;
+    a.pop();
+    cout<<"top : "<< a.Top() << " size: "<<a.getsize()<<endl;
+    return 0;
+}
