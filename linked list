@@ -1,0 +1,122 @@
+#include <iostream>
+
+using namespace std;
+class Linkedlist;
+class listnode{
+    int data;
+    listnode *next;
+public:
+    listnode(){
+        data = 0;
+        next = NULL;
+}
+    listnode(int a){
+        data = a;
+        next = 0;
+    }
+    friend class Linkedlist;
+};
+class Linkedlist{
+private:
+    listnode *first;
+public:
+    Linkedlist(){
+        first = NULL;
+    }
+    void printlist();
+    void push_front(int x);
+    void push_back(int x);
+    void delete1(int x);
+    void clear();
+    void reverse();
+};
+void Linkedlist::printlist(){
+    if(first == NULL){
+        cout<< "List is empty!"<<endl;
+        return;
+    }
+    listnode* current = first;
+    while(current != NULL){
+        cout<< current->data<<" ";
+        current = current->next;
+    }
+    cout<<endl;
+}
+void Linkedlist::push_front(int x){
+    listnode *newnode = new listnode(x);
+    newnode->next = first;
+    first = newnode;
+}
+void Linkedlist::push_back(int x){
+    listnode *newnode = new listnode(x);
+    if(first == NULL)
+        first = newnode;
+    listnode *current = first;
+    while(current->next != 0){
+        current = current->next;
+    }
+    current->next = newnode;
+}
+void Linkedlist::delete1(int x){
+    listnode *current = first;
+    listnode *previous = NULL;
+    while(current != NULL && current->data != x){
+        previous = current;
+        current = current->next;
+    }
+    if(current == NULL){
+        cout<<"There is no "<< x <<" in the list"<<endl;
+    }
+    else if(current == first){
+        first = current->next;
+        delete current;
+        current = NULL;
+    }
+    else{
+        previous->next = current->next;
+        delete current;
+        current = 0;
+    }
+}
+void Linkedlist::clear(){
+    while(first != 0){
+        listnode *current = first;
+        first = first->next;
+        delete current;
+        current = NULL;
+    }
+}
+void Linkedlist::reverse(){
+    if(first == 0 || first->next == 0)
+        return;
+    listnode *previous = NULL;
+    listnode *current = first;
+    listnode *procede = first->next;
+    while(procede != NULL){
+        current->next = previous;
+        previous = current;
+        current = procede;
+        procede = procede->next;
+    }
+    current->next = previous;
+    first = current;
+}
+int main()
+{
+    Linkedlist list;
+    list.printlist();
+    list.push_front(5);
+    list.printlist();
+    list.push_back(3);
+    list.push_front(9);
+    list.printlist();
+    list.push_back(4);
+    list.delete1(9);
+    list.printlist();
+    list.reverse();
+    list.printlist();
+    list.clear();
+    list.printlist();
+
+    return 0;
+}
