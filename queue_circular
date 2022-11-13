@@ -1,0 +1,105 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+
+using namespace std;
+class queuecircular{
+  private:
+    int capacity,front,back;
+    int *queue;
+    void doublecapacity();
+  public:
+    queuecircular(){
+        capacity = 5;
+        front = 0;
+        back = 0;
+        queue = new int[capacity];
+    };
+    void push(int);
+    void pop();
+    bool isempty();
+    bool isfull();
+    int getfront();
+    int getback();
+    int getsize();
+    int getcapacity();
+};
+void queuecircular::doublecapacity(){
+    capacity = capacity*2;
+    int *newqueue = new int[capacity];
+    int j = front;
+    int size = getsize();
+    for(int i = 1;i <= size;i++){
+        j++;
+        newqueue[i] = queue[j%capacity];
+    }
+    back = getsize();
+    front = 0;
+    delete [] queue;
+    queue = newqueue;
+}
+void queuecircular::push(int x){
+    if(isfull()){
+        doublecapacity();
+    }
+    back = (back + 1)%capacity;
+    queue[back] = x;
+}
+void queuecircular::pop(){
+    if(isempty()){
+        cout<<"queue is empty!"<<endl;
+        return;
+    }
+    front = (front+1)%capacity;
+}
+bool queuecircular::isfull(){
+    return((back+1)%capacity == front);
+}
+bool queuecircular::isempty(){
+    return(back == front);
+}
+int queuecircular::getfront(){
+    if(isempty()){
+        cout<<"queue is empty"<<endl;
+        return -1;
+    }
+    return queue[(front+1)%capacity];
+}
+int queuecircular::getback(){
+    if(isempty()){
+        cout<<"queue is empty"<<endl;
+        return -1;
+    }
+    return queue[back];
+}
+int queuecircular::getsize(){
+    int size;
+    if(back > front)
+        size = back - front;
+    else
+        size = capacity -(front - back);
+    return size;
+}
+int queuecircular::getcapacity(){
+    return capacity;
+}
+int main()
+{
+    queuecircular q;
+    if(q.isempty()){
+        cout<<"queue is empty"<<endl;
+    }
+    q.push(24);
+    q.push(78);
+    q.push(34);
+    cout<< q.getback()<<endl;
+    q.pop();
+    cout<<q.getfront()<<endl;
+    return 0;
+}
