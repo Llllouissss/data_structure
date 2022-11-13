@@ -1,0 +1,106 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+
+using namespace std;
+class queuenode{
+  public:
+    int data;
+    queuenode *next;
+    queuenode(){
+        data = 0;
+        next = NULL;
+    };
+    queuenode(int x){
+        data = x;
+        next = NULL;
+    };
+};
+class queuelist{
+  private:
+    queuenode *front;
+    queuenode *back;
+    int size;
+  public:
+    queuelist(){
+        front = NULL;
+        back = NULL;
+        size = 0;
+    };
+    void pop();
+    void push(int);
+    bool isempty();
+    int getfront();
+    int getback();
+    int getsize();
+};
+void queuelist::push(int x){
+    if(isempty()){
+        front = new queuenode(x);
+        back = front;
+        size++;
+        return;
+    }
+    queuenode *newnode = new queuenode(x);
+    back->next = newnode;
+    back = newnode;
+    size++;
+}
+void queuelist::pop(){
+    if(isempty()){
+        cout<<"queue is empty!"<<endl;
+        return;
+    }
+    queuenode *delete1 = front;
+    front = front->next;
+    delete delete1;
+    delete1 = NULL;
+    size--;
+}
+int queuelist::getfront(){
+    if(isempty()){
+        cout<<"queue is empty!"<<endl;
+        return -1; 
+    }
+    return front->data;
+}
+bool queuelist::isempty(){
+    return ((front && back) == NULL);
+}
+int queuelist::getsize(){
+    return size;
+}
+int queuelist::getback(){
+    if(isempty()){
+        cout<<"queue is empty"<<endl;
+        return -1;
+    }
+    return back->data;
+}
+int main()
+{
+    queuelist q;
+    if(q.isempty()){
+        cout<<"queue is empty"<<endl;
+    }
+    q.push(24);
+    cout<<"front : "<<q.getfront()<<" back : "<<q.getback()<<endl;
+    q.push(8);
+    cout<<"front : "<<q.getfront()<<" back : "<<q.getback()<<endl;
+    q.push(7);
+    cout<<"front : "<<q.getfront()<<" back : "<<q.getback()<<endl;
+    q.pop();
+    cout<<"front : "<<q.getfront()<<" back : "<<q.getback()<<endl;
+    q.push(1);
+    cout<<"front : "<<q.getfront()<<" back : "<<q.getback()<<endl;
+    q.pop();
+    cout<<"front : "<<q.getfront()<<" back : "<<q.getback()<<endl;
+
+    return 0;
+}
