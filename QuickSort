@@ -1,0 +1,58 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, OCaml, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+
+using namespace std;
+void swap(int *a,int*b){
+    int tmp = *a;
+    *a = *b;
+    *b = tmp;
+}
+
+void quicksort(int *arr,int front,int end){
+    if(front >= end)
+        return;
+    int i =front;
+    int j = end-1;
+    int key = arr[end];
+    while(i < j){
+        while(arr[i] < key && i < j)
+            i++;
+        while(arr[j] > key && i < j)
+            j--;
+        if(i < j)
+            swap(&arr[i],&arr[j]);
+    }
+    
+    arr[end] = arr[i];
+    arr[i] = key;
+    
+    quicksort(arr,front,i-1);
+    quicksort(arr,i+1,end);
+    
+}
+void PrintArray(int *arr, int size){
+    for (int i = 0; i < size; i++) {
+        std::cout << arr[i] << " ";
+    }
+    std::cout << std::endl;
+}
+int main()
+{
+    int n = 9;
+    int arr[] = {9, 4, 1, 6, 7, 3, 8, 2, 5};
+    std::cout << "original:\n";
+    PrintArray(arr, n);
+
+    quicksort(arr, 0, n-1);
+
+    std::cout << "sorted:\n";
+    PrintArray(arr, n);
+    return 0;
+}
